@@ -32,11 +32,25 @@ def register():
     if 'user_id' in session:
         return redirect('/')
     #Check if another user has the same email
+    if not request.form.get('status'):
+        status=""
+    else:
+        status=request.form.get('status')
+    data1 = {
+        'first_name': request.form['first_name'],
+        'last_name': request.form['last_name'],
+        'email': request.form['email'],
+        'password': request.form['password'],
+        'confirm_password': request.form['confirm_password'],
+        'status': status,
+        'profession': request.form['profession'],
+        'is_verified': 0,
+    }
     if User.get_user_by_email(request.form):
         flash('This email already exists. Try another one.', 'emailSignUp')
         return redirect(request.referrer)
     #Validate the user
-    if not User.validate_user(request.form):
+    if not User.validate_user(data1):
         return redirect(request.referrer)
     
     string = '0123456789ABCDEFGHIJKELNOPKQSTUV'
@@ -50,31 +64,13 @@ def register():
         'last_name': request.form['last_name'],
         'email': request.form['email'],
         'password': bcrypt.generate_password_hash(request.form['password']),
-        'status': request.form['status'],
+        'status': status,
         'profession': request.form['profession'],
         'is_verified': 0,
         'verificationCode': verificationCode
     }
     User.create_user(data)
-
-    LOGIN = ADMINEMAIL
-    TOADDRS  = request.form['email']
-    SENDER = ADMINEMAIL
-    SUBJECT = 'Verify Your Email'
-    msg = ("From: %s\r\nTo: %s\r\nSubject: %s\r\n\r\n"
-        % ((SENDER), "".join(TOADDRS), SUBJECT) )
-    msg += f'Use this verification code to activate your account: {verificationCode}'
-    server = smtplib.SMTP('smtp.gmail.com', 587)
-    server.set_debuglevel(1)
-    server.ehlo()
-    server.starttls()
-    server.login(LOGIN, PASSWORD)
-    server.sendmail(SENDER, TOADDRS, msg)
-    server.quit()
-
-    user = User.get_user_by_email(data)
-    session['user_id'] = user['id']
-    return redirect('/verify/email')
+    return redirect('/')
 
 @app.route('/loginpage')
 def loginPage():
@@ -163,6 +159,16 @@ def deleteProfile():
         User.delete_user(data)
         return redirect('/logout')
     return redirect(request.referrer)
+
+@app.route('/create')
+def create():
+    if 'user_id' not in session:
+        return redirect('/')
+    data = {
+        'user_id': session['user_id']
+    }
+    return render_template('create.html', loggedUser = User.get_user_by_id(data))
+
 
 
 @app.route('/logout')

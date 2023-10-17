@@ -4,42 +4,64 @@ from flask import render_template, redirect, session, request, flash
 
 from flask_app.models.user import User
 from flask_app.models.job import Job
+from flask_app.models.proposal import Proposal
 
 
-# @app.route('/dashboard')
-# def all_recipes():
-#     if 'user_id' in session:
-#         loggedUserData = {
-#             'user_id': session['user_id'],
-#         }
-#     loggedUser = User.get_user_by_id(loggedUserData)
-#     likedRecipes = User.get_one_user_liked_recipes(loggedUserData)
-#     if not loggedUser:
-#         return redirect('/')
-#     return render_template('dashboard.html', recipes = Recipe.get_all_recipes(), loggedUser = loggedUser, likedRecipes = likedRecipes)
+@app.route('/dashboard')
+def all_recipes():
+    if 'user_id' in session:
+        loggedUserData = {
+            'user_id': session['user_id'],
+        }
+    loggedUser = User.get_user_by_id(loggedUserData)
+    if not loggedUser:
+        return redirect('/')
+    return render_template('dashboard.html', loggedUser=loggedUser)
 
-# @app.route('/recipes/new')
-# def recipePage():
-#     if 'user_id' not in session:
-#         return redirect('/')
-#     return render_template('addRecipe.html')
 
-# @app.route('/create/recipe', methods = ['POST'])
-# def createRecipe():
-#     if 'user_id' not in session:
-#         return redirect('/')
-#     data = {
-#         'name': request.form['name'],
-#         'description': request.form['description'],
-#         'instructions': request.form['instructions'],
-#         'date_made': request.form['date_made'],
-#         'under_30': request.form.get('under_30', ''),
-#         'user_id': session['user_id']
-#     }   
-#     if not Recipe.validate_recipe(data):
-#         return redirect(request.referrer)
-#     Recipe.create_recipe(data)
-#     return redirect('/')
+@app.route('/create/job', methods = ['POST'])
+def createJob():
+    if 'user_id' not in session:
+        return redirect('/')
+    data = {
+        'title': request.form['title'],
+        'description': request.form['description'],
+        'salary': request.form['salary'],
+        'user_id': session['user_id']
+    }
+    if not Job.validate_job(data):
+        return redirect(request.referrer)
+    Job.create_job(data)
+    return redirect('/')
+
+
+@app.route('/create/proposal', methods = ['POST'])
+def createProposal():
+    if 'user_id' not in session:
+        return redirect('/')
+    data = {
+        'title': request.form['title'],
+        'description': request.form['description'],
+        'skill1': request.form['skill1'],
+        'skill2': request.form['skill2'],
+        'skill3': request.form['skill3'],
+        'user_id': session['user_id']
+    }   
+    if not Proposal.validate_proposal(data):
+        return redirect(request.referrer)
+    Proposal.create_proposal(data)
+    return redirect(request.referrer)
+
+@app.route('/jobproposals')
+def jobProposal():
+    if 'user_id' in session:
+        loggedUserData = {
+            'user_id': session['user_id'],
+        }
+    loggedUser = User.get_user_by_id(loggedUserData)
+    if not loggedUser:
+        return redirect('/')
+    return render_template('jobproposals.html', loggedUser=loggedUser, jobs = Job.get_jobs())
 
 # @app.route('/recipes/<int:id>')
 # def viewRecipe(id):
@@ -54,21 +76,20 @@ from flask_app.models.job import Job
 #     return render_template('viewRecipe.html', recipe = recipe, loggedUser = loggedUser)
 
 
-# @app.route('/recipes/delete/<int:id>')
-# def deleteRecipe(id):
-#     if 'user_id' not in session:
-#         return redirect('/')
-#     data = {
-#         'user_id': session['user_id'],
-#         'recipe_id': id
-#     }
-#     loggedUser = User.get_user_by_id(data)
-#     recipe = Recipe.get_recipe_by_id(data)
-#     if loggedUser['id'] != recipe['user_id']:
-#         return redirect(request.referrer)
-#     Recipe.delete_likes(data)
-#     Recipe.delete_recipe(data)
-#     return redirect(request.referrer)
+@app.route('/jobs/delete/<int:id>')
+def deleteJob(id):
+    if 'user_id' not in session:
+        return redirect('/')
+    data = {
+        'user_id': session['user_id'],
+        'job_id': id
+    }
+    loggedUser = User.get_user_by_id(data)
+    job = Job.get_job_by_id(data)
+    if loggedUser['id'] != job['user_id']:
+        return redirect(request.referrer)
+    Job.delete_job(data)
+    return redirect(request.referrer)
     
 
     

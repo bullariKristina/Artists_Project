@@ -5,7 +5,7 @@ from flask import flash
 EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$') 
 
 class User():
-    db_name = 'first_project'
+    db_name = 'db_project'
     def __init__(self, data):
         self.first_name = data['first_name']
         self.last_name = data['last_name']
@@ -19,22 +19,6 @@ class User():
         self.updated_at = data['updated_at']
 
     @classmethod
-    def create_user(cls, data):
-        query = "INSERT INTO users (first_name, last_name, email, password, status, profession, is_verified, verificationCode) VALUES ( %(first_name)s, %(last_name)s,%(email)s,%(password)s, %(status)s, %(profession)s, %(is_verified)s, %(verificationCode)s);"
-        return connectToMySQL(cls.db_name).query_db(query, data)
-    
-    @classmethod
-    def activateAccount(cls, data):
-        query = "UPDATE users set isVerified = 1 WHERE users.id = %(user_id)s;"
-        return connectToMySQL(cls.db_name).query_db(query, data)  
-    #Checks if there is a user with that email (needed for registration process)
-
-    @classmethod
-    def updateVerificationCode(cls, data):
-        query = "UPDATE users SET  verificationCode = %(verificationCode)s WHERE users.id = %(user_id)s;"
-        return connectToMySQL(cls.db_name).query_db(query, data)  
-    
-    @classmethod
     def get_user_by_email(cls, data):
         query = "SELECT * FROM users WHERE email = %(email)s;"
         results = connectToMySQL(cls.db_name).query_db(query, data)
@@ -42,6 +26,23 @@ class User():
             return results[0]
         return False
     
+    @classmethod
+    def create_user(cls, data):
+        query = "INSERT INTO users (first_name, last_name, email, password, status, profession, is_verified, verificationCode) VALUES ( %(first_name)s, %(last_name)s, %(email)s, %(password)s, %(status)s, %(profession)s, %(is_verified)s, %(verificationCode)s);"
+        return connectToMySQL(cls.db_name).query_db(query, data)
+   
+    @classmethod
+    def activateAccount(cls, data):
+        query = "UPDATE users SET is_verified = 1 WHERE users.id = %(user_id)s;"
+        return connectToMySQL(cls.db_name).query_db(query, data)  
+    
+    #Checks if there is a user with that email (needed for registration process)
+
+    @classmethod
+    def updateVerificationCode(cls, data):
+        query = "UPDATE users SET  verificationCode = %(verificationCode)s WHERE users.id = %(user_id)s;"
+        return connectToMySQL(cls.db_name).query_db(query, data)  
+   
     #All information of all users
     @classmethod
     def get_all_users(cls):
@@ -105,7 +106,7 @@ class User():
         if user['confirm_password'] != user['password']:
             flash('The passwords do not match',  'confirmPassword')
             is_valid = False
-        if not user['status']:
+        if  len(user['status'])<1:
             flash('Please state your status', 'status')
             is_valid = False
         if len(user['profession'])< 2:

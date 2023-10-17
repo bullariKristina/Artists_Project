@@ -8,9 +8,9 @@
   user-select: none;
 }
 .bg-img{
-  background: url('../static/img/composition8.jpg');
+  background-repeat: no-repeat !important;
   height: 100vh;
-  background-size: cover;
+  background-size: cover !important;
   background-position: center;
 }
 .bg-img:after{

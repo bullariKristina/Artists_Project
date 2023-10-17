@@ -3,10 +3,10 @@ import re	# the regex module
 from flask import flash
  
 class Job:
-    db_name = 'first_project'
+    db_name = 'db_project'
     def __init__( self , data ):
         self.id = data['id']
-        self.name = data['title']
+        self.title = data['title']
         self.description = data['description']
         self.salary = data['salary']
         self.user_id = data['user_id']
@@ -16,15 +16,9 @@ class Job:
 
     @classmethod
     def create_job(cls, data):
-        query = "INSERT INTO jobs (title, instructions, salary, user_id) VALUES ( %(title)s, %(description)s,%(salary)s,%(user_id)s);"
+        query = "INSERT INTO jobs (title, description, salary, user_id) VALUES ( %(title)s, %(description)s, %(salary)s, %(user_id)s);"
         return connectToMySQL(cls.db_name).query_db(query, data)
-    
-    # @classmethod
-    # def unlike(cls, data):
-    #     query = "DELETE FROM likes WHERE user_id = %(user_id)s AND recipe_id = %(recipe_id)s;"
-    #     return connectToMySQL(cls.db_name).query_db(query, data)
-    
-    
+
     #List of users who applied for a given job
     @classmethod
     def get_users_who_applied(cls, data):
@@ -40,7 +34,18 @@ class Job:
     #List of all jobs we have 
     @classmethod
     def get_all_jobs(cls):
-        query = 'SELECT jobs.id as id, jobs.title as title, recipes.salary as salary, jobs.user_id as user_id, COUNT(applications.id) as applications FROM jobs LEFT JOIN users on jobs.user_id = users.id LEFT JOIN applications on application.job_id = applications.id GROUP BY applications.id;'
+        query = 'SELECT jobs.id as id, jobs.title as title, jobs.description as description, jobs.salary as salary, jobs.user_id as user_id, COUNT(applications.id) as applications FROM jobs LEFT JOIN users on jobs.user_id = users.id LEFT JOIN applications on applications.job_id = applications.id GROUP BY applications.id;'
+        results = connectToMySQL(cls.db_name).query_db(query)
+        jobs= []
+        if results:
+            for job in results:
+                jobs.append(job)
+            return jobs
+        return jobs
+    
+    @classmethod
+    def get_jobs(cls):
+        query = 'SELECT jobs.id as id, jobs.title as title, jobs.description as description, jobs.salary as salary, jobs.user_id as user_id, COUNT(applications.id) as applications FROM jobs LEFT JOIN users on jobs.user_id = users.id LEFT JOIN applications on applications.job_id = jobs.id GROUP BY jobs.id, jobs.title, jobs.description, jobs.salary, jobs.user_id;'
         results = connectToMySQL(cls.db_name).query_db(query)
         jobs= []
         if results:
@@ -103,15 +108,17 @@ class Job:
         is_valid = True
         # test whether a field matches the pattern
         if len(data['title'])< 2:
-            flash('Title must be more than 2 characters', 'title')
+            flash('Title must be more than 2 characters', 'jobTitle')
             is_valid = False
         if len(data['description'])< 2:
-            flash('Description must be more than 2 characters', 'description')
+            flash('Description must be more than 2 characters', 'jobDescription')
             is_valid = False
         if len(data['salary'])< 1:
-            flash('Salary is required', 'salary')
+            flash('Salary is required', 'jobSalary')
             is_valid= False
         else:
             flash('Job successfully posted!', 'success')
         return is_valid
+
+
     

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>#theArtist</title>
+      <link rel="icon" href="{{ url_for('static', filename='img/icon.png') }}" type="image/icon type">
+      <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='img/icon.png') }}">
+      <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/dashboard.css') }}">
+      <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/create.css') }}">
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<body class="darkpurple body">
+  <div class="darkpurple pb-5">
+    <nav class="navbar navbar-dark navbar-expand-lg  py-3 px-5 m-auto border-bottom">
+      <div class="container-fluid">
+        <a class="navbar-brand logo text-white" href="/">#theArtist</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="d-flex justify-content-between">
+          <a class="navbar-brand lineh-50" href="/network">The network</a>
+          <a class="navbar-brand lineh-50" href="/jobproposals">Jobs/Proposals</a>
+          <div class="dropdown">
+            <button class="dropbtn darkpurple"><img src="../static/img/gear-24.png" alt=""></button>
+            <div class="dropdown-content">
+              <a href="/profile">My profile</a>
+              {% if loggedUser.status == artist %}
+                <a href="/portfolio">My portfolio</a>
+              {% endif %}
+              <a href="/logout">Logout</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    {% if loggedUser.status == 'employeer' %}
+    <form action="/create/job" method="post" class="col-5 bg-dark p-4 my-5 mx-auto text-light text-center">
+        <h1>Create a new job position</h1>
+        <div class="form-group text-center my-3">
+            <label for="title" class="form-label d-block fs-5">Title: </label>
+            <input type="text" name="title" class="form-control">
+            {% with messages = get_flashed_messages(category_filter=["jobTitle"]) %}
+            {% if messages %}
+            {% for message in messages %}
+            <p class="text-danger text-center">{{message}}</p>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}   
+        </div>
+        <div class="form-group text-center my-3">
+            <label for="description" class="form-label d-block fs-5">Description:</label>
+            <textarea name="description" cols="30" rows="2" class="form-control"></textarea>
+            {% with messages = get_flashed_messages(category_filter=["jobDescription"]) %}
+            {% if messages %}
+            {% for message in messages %}
+            <p class="text-danger text-center">{{message}}</p>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}  
+        </div>
+        <div class="form-group text-center my-3">
+            <label for="salary" class="form-label d-block fs-5">Salary ($):</label>
+            <input type="text" name="salary" id="" cols="30" rows="5" class="form-control"></input>
+            {% with messages = get_flashed_messages(category_filter=["jobSalary"]) %}
+            {% if messages %}
+            {% for message in messages %}
+            <p class="text-danger text-center">{{message}}</p>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}  
+        </div>
+        
+        <input type="Submit" class="btn btn-pink mt-3 w-25 fs-5"></input>
+    </form>
+
+    {% elif loggedUser.status == 'artist' %}
+    <form action="/create/proposal" method="post" class="col-5 bg-dark p-4 my-5 mx-auto text-light text-center">
+        <h1 class="pink">Create a proposal for a web application</h1>
+        <div class="form-group fs-5 text-center my-3">
+            <label for="title" class="form-label d-block">Title: </label>
+            <input type="text" name="title" class="form-control">
+            {% with messages = get_flashed_messages(category_filter=["proposalTitle"]) %}
+            {% if messages %}
+            {% for message in messages %}
+            <p class="text-danger text-center">{{message}}</p>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}   
+        </div>
+        <div class="form-group fs-5 text-center my-3">
+            <label for="description" class="form-label d-block">Description:</label>
+            <textarea name="description" id="" cols="30" rows="2" class="form-control"></textarea>
+            {% with messages = get_flashed_messages(category_filter=["proposalDescription"]) %}
+            {% if messages %}
+            {% for message in messages %}
+            <p class="text-danger text-center">{{message}}</p>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}  
+        </div>
+        <div class="d-flex justify-content-around">
+          <div>
+            <h5>Developer</h5>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="skill1" value="front-end">
+              <label class="form-check-label" for="skill1">
+                Front-end
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="skill1" value="back-end">
+              <label class="form-check-label" for="skill1">
+                Back-end
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="skill1" value="fullstack" checked>
+              <label class="form-check-label" for="skill1">
+                Fullstack
+              </label>
+              </div>
+          </div>
+
+          <div>
+            <h5>Language</h5>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="skill2" value="python" checked>
+              <label class="form-check-label" for="skill2">
+                Python
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="skill2" value="java" >
+              <label class="form-check-label" for="skill2">
+                Java
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="skill2" value="javascript" >
+              <label class="form-check-label" for="skill2">
+                Javascript
+              </label>
+            </div>
+          </div>
+
+          <div>
+            <h5>Way of Charging</h5>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="skill3">
+              <label class="form-check-label" for="skill3">
+                Per project
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="skill3" checked>
+              <label class="form-check-label" for="skill3">
+                Per hour
+              </label>
+            </div>
+          </div>
+          
+        </div>
+
+        <p class="m-3 fs-5">Thank you for your idea!</p>
+        {% with messages = get_flashed_messages(category_filter=["proposalSuccess"]) %}
+        {% if messages %}
+        {% for message in messages %}
+        <p class="text-danger text-center">{{message}}</p>
+        {% endfor %}
+        {% endif %}
+        {% endwith %} 
+        <input type="Submit" class="btn btn-pink fs-5"></input>
+    </form>
+    {% endif %}
+  </div>
+    
+</body>
+</html>
