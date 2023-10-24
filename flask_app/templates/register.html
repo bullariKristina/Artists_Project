@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="тут краткое описание страницы, чтобы заманить посетителя">
+  <meta name="keywords" content="разные, ключевые, слова, скидки, распродажа, и тд">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="styles/base/normalize.css">
+  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <link rel="icon" href="{{ url_for('static', filename='img/icon.png') }}" type="image/icon type">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='img/icon.png') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/register.css') }}">
+  <title>#theArtist </title>
+</head>
+<body>
+  <section style="background: url('../static/img/composition8.jpg');" class="authorisation bg-img">
+    <div class="sign-in-up-form">
+      <section class="form-tabs">
+          <div class="form-tabs__slider"></div>
+          <button class="form-tabs__btn form-tabs__btn_sign-in" type="button">Artist</button>
+          <button class="form-tabs__btn form-tabs__btn_register" type="button">IT</button>
+      </section>
+
+      <section class="form-login">
+          <form action="/register/artist", method="post">
+              <section class="credentials-form-item">
+                  <input type="email" class="credentials-form-item__text" id="form-register__email" name="email" >
+                  <label class="form__label" for="form-register__email"><i class="fa fa-envelope-o"></i>E-mail</label>
+                  {% with messages = get_flashed_messages(category_filter=["emailArtist"]) %}
+                  {% if messages %}
+                  {% for message in messages %}
+                  <p class="text-danger text-center">{{message}}</p>
+                  {% endfor %}
+                  {% endif %}
+                  {% endwith %}
+              </section>
+
+              <section class="credentials-form-item">
+                  <input type="password" class="credentials-form-item__text" id="form-register__password" name="password" data-eye="disable">
+                  <label class="form__label" for="password"><i class="fa fa-key"></i>Password</label>
+                  {% with messages = get_flashed_messages(category_filter=["passwordArtist"]) %}
+                  {% if messages %}
+                  {% for message in messages %}
+                  <p class="text-danger text-center">{{message}}</p>
+                  {% endfor %}
+                  {% endif %}
+                  {% endwith %}
+                  <span class="form__eye">
+                      <i class="fa fa-eye-slash show form__eye" data-eye=""></i>
+                      <i class="fa fa-eye hide form__eye" data-eye=""></i>
+                  </span>
+              </section>
+
+              <section class="credentials-form-item">
+                  <input type="password" class="credentials-form-item__text" id="form-register__password" name="confirm_password" data-eye="disable">
+                  <label class="form__label" for="confirm_password"><i class="fa fa-key"></i>Confirm Password</label>
+                  {% with messages = get_flashed_messages(category_filter=["confirmPasswordArtist"]) %}
+                  {% if messages %}
+                  {% for message in messages %}
+                  <p class="text-danger text-center">{{message}}</p>
+                  {% endfor %}
+                  {% endif %}
+                  {% endwith %} 
+                  <span class="form__eye">
+                      <i class="fa fa-eye-slash show form__eye" data-eye=""></i>
+                      <i class="fa fa-eye hide form__eye" data-eye=""></i>
+                  </span>
+              </section>
+
+              <input type="submit"  value="Register" class="credentials-form__btn form-register__btn"></input>
+              <a class="credentials-form__btn form-register__btn mt-3 text-decoration-none" href="/loginpage">Login</a>
+
+          </form>
+      </section>
+
+      <section class="form-register">
+        <form action="/register/it", method="post">
+            <section class="credentials-form-item">
+                <input type="email" class="credentials-form-item__text" id="form-register__email" name="email" >
+                <label class="form__label" for="form-register__email"><i class="fa fa-envelope-o"></i>E-mail</label>
+                {% with messages = get_flashed_messages(category_filter=["emailIt"]) %}
+                {% if messages %}
+                {% for message in messages %}
+                <p class="text-danger text-center">{{message}}</p>
+                {% endfor %}
+                {% endif %}
+                {% endwith %}
+            </section>
+
+            <section class="credentials-form-item">
+                <input type="password" class="credentials-form-item__text" id="form-register__password" name="password" data-eye="disable">
+                <label class="form__label" for="password"><i class="fa fa-key"></i>Password</label>
+                {% with messages = get_flashed_messages(category_filter=["passwordIt"]) %}
+                {% if messages %}
+                {% for message in messages %}
+                <p class="text-danger text-center">{{message}}</p>
+                {% endfor %}
+                {% endif %}
+                {% endwith %}
+                <span class="form__eye">
+                    <i class="fa fa-eye-slash show form__eye" data-eye=""></i>
+                    <i class="fa fa-eye hide form__eye" data-eye=""></i>
+                </span>
+            </section>
+
+            <section class="credentials-form-item">
+                <input type="password" class="credentials-form-item__text" id="form-register__password" name="confirm_password" data-eye="disable">
+                <label class="form__label" for="confirm_password"><i class="fa fa-key"></i>Confirm Password</label>
+                {% with messages = get_flashed_messages(category_filter=["confirmPasswordIt"]) %}
+                {% if messages %}
+                {% for message in messages %}
+                <p class="text-danger text-center">{{message}}</p>
+                {% endfor %}
+                {% endif %}
+                {% endwith %} 
+                <span class="form__eye">
+                    <i class="fa fa-eye-slash show form__eye" data-eye=""></i>
+                    <i class="fa fa-eye hide form__eye" data-eye=""></i>
+                </span>
+            </section>
+
+            <input type="submit"  value="Register" class="credentials-form__btn form-register__btn"></input>
+        
+        </form>
+      </section>
+
+    </div>
+  </section>
+<script src="{{url_for('static', filename='JS/reg.js')}}"></script>
+</body>
+</html>

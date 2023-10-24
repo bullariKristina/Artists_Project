@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <link rel="icon" href="{{ url_for('static', filename='img/icon.png') }}" type="image/icon type">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='img/icon.png') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/complete.css') }}">
+  <title>#theArtist </title>
+</head>
+<body>
+    <div class="bg-color bg-img" >
+        <div class="p-5">
+            {% if user.status == 'artist' %}
+                <form action="/register/artist/complete" method="post" class="background col-4 p-4 my-5 mx-auto text-light text-center rounded">
+                    <h1>Welcome!</h1>
+                    <h4>Please help us set up your account.</h4>
+                    <div class="form-group text-center my-3">
+                        <label for="first_name" class="form-label d-block fs-5">First Name: </label>
+                        <input type="text" name="first_name" class="form-control">
+                        {% with messages = get_flashed_messages(category_filter=["firstName"]) %}
+                        {% if messages %}
+                        {% for message in messages %}
+                        <p class="text-danger text-center">{{message}}</p>
+                        {% endfor %}
+                        {% endif %}
+                        {% endwith %}   
+                    </div>
+                    <div class="form-group text-center my-3">
+                        <label for="last_name" class="form-label d-block fs-5">Last Name:</label>
+                        <input type="text" name="last_name" class="form-control"></input>
+                        {% with messages = get_flashed_messages(category_filter=["lastName"]) %}
+                        {% if messages %}
+                        {% for message in messages %}
+                        <p class="text-danger text-center">{{message}}</p>
+                        {% endfor %}
+                        {% endif %}
+                        {% endwith %}  
+                    </div>
+                    <div class="form-group text-center my-3">
+                        <label for="profession" class="form-label d-block fs-5">Profession:</label>
+                        <input type="text" name="profession" class="form-control"></input>
+                        {% with messages = get_flashed_messages(category_filter=["profession"]) %}
+                        {% if messages %}
+                        {% for message in messages %}
+                        <p class="text-danger text-center">{{message}}</p>
+                        {% endfor %}
+                        {% endif %}
+                        {% endwith %}  
+                    </div>
+                    <input type="submit" value="Submit" class="btn bg-color mt-3 w-25 fs-5"></input>
+                </form>
+            {% elif user.status == 'it' %}
+                <form action="/register/it/complete" method="post" class="background col-4 p-4 py-5 mx-auto text-light text-center rounded">
+                    <h1>Welcome!</h1>
+                    <h4>Please help us set up your account.</h4>
+                    <div class="form-group text-center my-3">
+                        <label for="first_name" class="form-label d-block fs-5">First Name: </label>
+                        <input type="text" name="first_name" class="form-control">
+                        {% with messages = get_flashed_messages(category_filter=["firstName"]) %}
+                        {% if messages %}
+                        {% for message in messages %}
+                        <p class="text-danger text-center">{{message}}</p>
+                        {% endfor %}
+                        {% endif %}
+                        {% endwith %}    
+                    </div>
+                    <div class="form-group text-center my-3">
+                        <label for="last_name" class="form-label d-block fs-5">Last Name:</label>
+                        <input type="text" name="last_name" class="form-control"></input>
+                        {% with messages = get_flashed_messages(category_filter=["lastName"]) %}
+                        {% if messages %}
+                        {% for message in messages %}
+                        <p class="text-danger text-center">{{message}}</p>
+                        {% endfor %}
+                        {% endif %}
+                        {% endwith %}  
+                    </div>
+                    <div class="d-flex justify-content-around">
+                        <div>
+                            <h5>Developer</h5>
+                            <div class="form-check">
+                            <input class="form-check-input" type="radio" name="developer" value="Front-end">
+                            <label class="form-check-label" for="developer">
+                                Front-end
+                            </label>
+                            </div>
+                            <div class="form-check">
+                            <input class="form-check-input" type="radio" name="developer" value="Back-end">
+                            <label class="form-check-label" for="developer">
+                                Back-end
+                            </label>
+                            </div>
+                            <div class="form-check">
+                            <input class="form-check-input" type="radio" name="developer" value="Fullstack" checked>
+                            <label class="form-check-label" for="developer">
+                                Fullstack
+                            </label>
+                            </div>
+                        </div>
+                
+                        <div>
+                            <h5>Language</h5>
+                            <div class="form-check">
+                            <input class="form-check-input" type="radio" name="language" value="Python" checked>
+                            <label class="form-check-label" for="language">
+                                Python
+                            </label>
+                            </div>
+                            <div class="form-check">
+                            <input class="form-check-input" type="radio" name="language" value="Java" >
+                            <label class="form-check-label" for="language">
+                                Java
+                            </label>
+                            </div>
+                            <div class="form-check">
+                            <input class="form-check-input" type="radio" name="language" value="Javascript" >
+                            <label class="form-check-label" for="language">
+                                Javascript
+                            </label>
+                            </div>
+                        </div>
+                
+                        <div>
+                            <h5>Way of Charging</h5>
+                            <div class="form-check">
+                            <input class="form-check-input" type="radio" name="chargeWay" value="Per project">
+                            <label class="form-check-label" for="chargeWay">
+                                Per project
+                            </label>
+                            </div>
+                            <div class="form-check">
+                            <input class="form-check-input" type="radio" name="chargeWay" value="Per hour" checked>
+                            <label class="form-check-label" for="chargeWay">
+                                Per hour
+                            </label>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <input type="submit" value="Submit" class="btn bg-color mt-3 w-25 fs-5"></input>
+                </form>
+            {% endif %}
+        </div>
+            
+    </div>
+
+</body>
+</html>

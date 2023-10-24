@@ -1,0 +1,70 @@
+.css-serial {
+    counter-reset: serial-number; /* Set the serial number counter to 0 */
+}
+
+.css-serial td:first-child:before {
+    counter-increment: serial-number; /* Increment the serial number counter */
+    content: counter(serial-number); /* Display the counter */
+}
+
+.card {
+    width: 190px;
+    height: 254px;
+    background-color: #212121 !important;
+    border: none;
+    border-radius: 20px !important;
+    position: relative;
+    margin: auto;
+    font-family: inherit;
+}
+  
+.card span {
+font-weight: 600;
+color: white;
+text-align: center;
+display: block;
+padding-top: 10px;
+font-size: 1.3em;
+}
+
+.card .job {
+font-weight: 400;
+color: white;
+display: block;
+text-align: center;
+padding-top: 5px;
+font-size: 1em;
+}
+
+.card .img {
+width: 70px;
+height: 70px;
+background: #e8e8e8;
+border-radius: 100%;
+margin: auto;
+margin-top: 20px;
+}
+
+.card a {
+padding: 8px 25px;
+display: block;
+margin: auto;
+border-radius: 8px;
+border: none;
+margin-top: 10px;
+background: #e8e8e8;
+color: #111111;
+font-weight: 600;
+}
+
+.card a:hover {
+background: #212121;
+color: #ffffff;
+}
+
+
+.image{
+    width: 300px;
+    height: 350px;
+    object-fit: contain !important;
+}

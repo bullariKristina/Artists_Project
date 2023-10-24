@@ -20,16 +20,17 @@
   left: 0;
   height: 100%;
   width: 100%;
-  background: rgba(0,0,0,0.7);
+  background: rgba(0,0,0,0.1);
 }
 .content{
+  border-radius: 10px;
   position: absolute;
   top: 50%;
   left: 50%;
   z-index: 999;
   text-align: center;
   padding: 60px 32px;
-  width: 400px;
+  width: 368px;
   transform: translate(-50%,-50%);
   background: rgba(255,255,255,0.04);
   box-shadow: -1px 4px 28px 0px rgba(0,0,0,0.75);
@@ -160,8 +161,4 @@ i span{
 
 .fieldset input{
   float: right;
-}
-
-.w-57{
-  width: 57%;
 }

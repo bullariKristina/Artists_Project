@@ -3,7 +3,7 @@ import re	# the regex module
 from flask import flash
  
 class Job:
-    db_name = 'db_project'
+    db_name = 'project_artist_it'
     def __init__( self , data ):
         self.id = data['id']
         self.title = data['title']
@@ -22,7 +22,7 @@ class Job:
     #List of users who applied for a given job
     @classmethod
     def get_users_who_applied(cls, data):
-        query = "SELECT applications.user_id as id FROM applicatins WHERE job_id = %(job_id)s;"
+        query = "SELECT applications.user_id as id FROM applications WHERE job_id = %(job_id)s;"
         results = connectToMySQL(cls.db_name).query_db(query, data)
         applications= []
         if results:
