@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>#theArtist</title>
+	<link href='https://fonts.googleapis.com/css?family=Aladin' rel='stylesheet'>
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/dashboard.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/create.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/dropdown.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/font-awesome.min.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/simplelightbox.min.css') }}">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body class="body">
+
+	<section id="header" class="clearfix cd-secondary-nav">
+		<nav class="navbar">
+		  <div class="container clearfix">
+	
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header clearfix page-scroll">
+			  <button type="button" class="navbar-toggle" data-toggle="collapse"
+				data-target="#bs-example-navbar-collapse-1">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			  </button>
+			  <a href="/dashboard" class="navbar-brand"><i class="fa fa-pencil"></i>#theArtist</a>
+			</div>
+	
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse clearfix" id="bs-example-navbar-collapse-1">
+			  <ul class="nav navbar-nav navbar-right">
+				<li>
+				  <a class="tag_menu_1 active_tab" href="/dashboard">HOME</a>
+				</li>
+	
+				<li class="tag_menu">
+				  <div class="dropdown">
+					<button class="dropbtn ">POSTS <i class="fa fa-caret-down" aria-hidden="true"></i></button>
+					<div class="dropdown-content">
+					  <a href="/jobproposals">JOBS</a>
+					  <a href="/jobproposals">PROPOSALS </a>
+					</div>
+				  </div>
+				</li>
+	
+				<li class="tag_menu_1 active_tab">
+				  <div class="dropdown">
+					<button class="dropbtn ">CREATE <i class="fa fa-caret-down" aria-hidden="true"></i></button>
+					<div class="dropdown-content">
+					  {% if loggedUser.status == 'artist' %}
+					  <a href="/create">PROPOSAL</a>
+					  {% else %}
+					  <a href="/create">JOB POSITION</a>
+					  {% endif %}
+					</div>
+				  </div>
+				</li>
+				
+			  <!-- 
+				<li class="dropdown">
+				  <a class="tag_menu border_none" href="#" data-toggle="dropdown" role="button"
+					aria-expanded="false">POSTS<span class="caret"></span></a>
+				  <ul class="dropdown-menu drop_2" role="menu">
+					<li><a href="collection.html">JOBS</a></li>
+					<li><a href="blog_detail.html">PROPOSALS</a></li>
+				  </ul>
+				</li> -->
+	
+				<li>
+				  <a class="tag_menu" href="/network">NETWORK</a>
+				</li>
+	
+				<li>
+				  <a class="tag_menu" href="contact.html">CONTACT US</a>
+				</li>
+	
+	
+				<!-- <li class="dropdown"><a class="tag_menu" href="#" data-toggle="dropdown"><span
+					  class="fa fa-search"></span></a>
+				  <ul class="dropdown-menu drop_1" style="min-width: 300px;">
+					<li>
+					  <div class="row_1">
+						<div class="col-sm-12">
+						  <form class="navbar-form navbar-left" role="search">
+							<div class="input-group">
+							  <input type="text" class="form-control" placeholder="Search">
+							  <span class="input-group-btn">
+								<button class="btn btn-primary" type="button">
+								  Search</button>
+							  </span>
+							</div>
+						  </form>
+						</div>
+					  </div>
+					</li>
+				  </ul>
+				</li> -->
+				<li > 
+				  <div class="dropdown">
+					<button class="dropbtn nav-color"><img class="img" src="../static/img/gear-24.png" alt=""></button>
+					<div class="dropdown-content">
+					  <a href="/profile/{{loggedUser.id}}">MY PROFILE</a>
+					  <a href="/portfolio/{{loggedUser.id}}">MY PORTFOLIO </a>
+					  <a href="/portfolio">CREATE PORTFOLIO</a>
+					  <a href="/logout">LOGOUT</a>
+					</div>
+				  </div>
+				</li>
+			   
+			  </ul>
+	
+			</div>
+			<!-- /.navbar-collapse -->
+		  </div>
+		  <!-- /.container-fluid -->
+		</nav>
+	  </section>
+
+
+<section id="contact_us">
+		<div class="container">
+		<div class="row">
+		<div class="col-sm-12">
+		<div class="row">
+			<div class="col-sm-12 text-center">
+				<h1 class="port">CONTACT US</h1>
+			</div>
+		</div><br>
+		<div class="row">
+			<div class="col-sm-6">
+				<h3 class="t-center mt-150">This is where we are located. <br>Please contact us on one of the contacts provided below.</h3>
+			</div>
+			
+			<div class="col-sm-6">
+			 <div class="cont_n clearfix">
+				<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2996.5525774948946!2d19.806309375799227!3d41.318596100259754!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x135031002aacb2ab%3A0xaa4e9f05325f36!2sRruga%20Sulejman%20Delvina%2C%20Tirana%2C%20Albania!5e0!3m2!1sen!2s!4v1700057915617!5m2!1sen!2s" width="100%" height="500px" frameborder="0" style="border:0;" allowfullscreen="" ></iframe>
+			   <!-- <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d114964.53925916665!2d-80.29949920266738!3d25.782390733064336!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88d9b0a20ec8c111%3A0xff96f271ddad4f65!2sMiami%2C+FL%2C+USA!5e0!3m2!1sen!2sin!4v1530774403788" width="100%" height="500px" frameborder="0" style="border:0" allowfullscreen=""></iframe> -->
+			 </div>
+			</div>
+		</div>
+		</div>
+		</div>
+		</div>
+		</section>
+		
+<section id="contact">
+ <div class="container">
+  <div class="row">
+   <div class="contact clearfix">
+    <div class="col-sm-4">
+	 <div class="contact_inner text-center">
+	  <h1><i class="fa fa-map-marker"></i></h1>
+	  <h2>Address</h2>
+	  <h3>Sulejman Delvina Street <br>
+		Tirane, Albania</h3>
+	  <p>
+	   <br>
+        <br>
+       
+	  </p>
+	 </div>
+	</div>
+	<div class="col-sm-4">
+	 <div class="contact_inner icon_2 text-center">
+	  <h1><i class="fa fa-envelope"></i></h1>
+	  <h2>Email</h2>
+	  <p>
+	   <a href="#"> info@gmail.com</a><br>
+		<a href="#">info@gmail.com</a><br>
+	  </p>
+	 </div>
+	</div>
+	<div class="col-sm-4">
+	 <div class="contact_inner icon_3 text-center">
+	  <h1><i class="fa fa-phone"></i></h1>
+	  <h2>Contact No.</h2>
+	  <span class="span_1"><i class="fa fa-phone-square"></i>  +91 - 1234-567-890  </span>
+	  <span class="span_2"> <i class="fa fa-whatsapp"></i>  +91 - 1234-567-890  </span>
+	 </div>
+	</div>
+   </div>
+  </div>
+ </div>
+</section>
+
+<section id="sign_up" class="sign_up_collection">
+    <div class="container">
+      <div class="row">
+        <div class="sign_up_box text-center clearfix">
+          <h2> Stay Inspired: Subscribe to Our Newsletter</h2>
+          <p> Join our community of artists or IT enthusiasts and be the first to experience the latest news, exclusive content, and creative inspiration. <br> Don't miss out on exciting posts, special offers, and behind-the-scenes <br> glimpses into our world. </p>
+          <div class="input-group">
+            <input type="text" class="form-control" placeholder="your email address">
+            <span class="input-group-btn">
+              <button class="btn btn-primary" type="button">
+                SUBMIT</button>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+<section id="about_home" class="clearfix">
+ <div class="about_home_main clearfix">
+   <div class="container">
+  <div class="row">
+   <div class="about_home clearfix">
+    <div class="col-sm-6">
+	 <div class="about_home_1 clearfix">
+	  <div class="col-sm-3 space_all">
+	   <div class="about_home_1_left">
+	     <h2><i class="fa fa-skyatlas"></i></h2>
+	   </div>
+	  </div>
+	   <div class="col-sm-9">
+	     <div class="about_home_1_right">
+		  <h4>OUR TOURS</h4>
+		  <p> Fusce nec tellus sed augue semper porta. Mauris massa. Vestibulum lacinia arcu eget nulla.Class aptent taciti sociosqu ad litora torquent per conubia nostra.</p>
+		 </div>
+	   </div>
+	 </div>
+	 <div class="about_home_1 clearfix">
+	  <div class="col-sm-3 space_all">
+	   <div class="about_home_1_left">
+	     <h2><i class="fa fa-television"></i></h2>
+	   </div>
+	  </div>
+	   <div class="col-sm-9">
+	     <div class="about_home_1_right">
+		  <h4>FOREIGN TOURS</h4>
+		  <p>Fusce nec tellus sed augue semper porta. Mauris massa. Vestibulum lacinia arcu eget nulla.Class aptent taciti sociosqu ad litora torquent per conubia nostra.</p>
+		 </div>
+	   </div>
+	 </div>
+	</div>
+	<div class="col-sm-6">
+	 <div class="about_home_1 clearfix">
+	  <div class="col-sm-3 space_all">
+	   <div class="about_home_1_left">
+	     <h2><i class="fa fa-user-plus"></i></h2>
+	   </div>
+	  </div>
+	   <div class="col-sm-9">
+	     <div class="about_home_1_right">
+		  <h4>COMMUNICATION</h4>
+		  <p>Fusce nec tellus sed augue semper porta. Mauris massa. Vestibulum lacinia arcu eget nulla.Class aptent taciti sociosqu ad litora torquent per conubia nostra.</p>
+		 </div>
+	   </div>
+	 </div>
+	 <div class="about_home_1 clearfix">
+	  <div class="col-sm-3 space_all">
+	   <div class="about_home_1_left">
+	     <h2><i class="fa fa-suitcase "></i></h2>
+	   </div>
+	  </div>
+	   <div class="col-sm-9">
+	     <div class="about_home_1_right">
+		  <h4>COMPANY PROGRESS</h4>
+		  <p>Fusce nec tellus sed augue semper porta. Mauris massa. Vestibulum lacinia arcu eget nulla.Class aptent taciti sociosqu ad litora torquent per conubia nostra.</p>
+		 </div>
+	   </div>
+	 </div>
+	</div>
+   </div>
+  </div>
+ </div>
+ </div>
+</section>
+
+<section id="footer">
+    <div class="container">
+      <div class="row">
+        <div class="footer clearfix">
+          <div class="footer_1 clearfix">
+            <div class="col-sm-3">
+              <div class="footer_1_left">
+                <h3>#THEARTIST</h3>
+                <p>Sulejman Delvina Street<br>Tirane, Albania<br></p>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="footer_3 clearfix">
+                <p>Registrations Always Open</p>
+                <p>Here at <span class="red">#theArtist</span>, we believe in fostering a dynamic and collaborative environment where creativity and innovation thrive. We're on a mission to connect you with people who can make your ideas come true, and we're always welcoming talented individuals who share our passion and want to make a real impact.</p>
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <div class="footer_1_right pull-right">
+                <h1>#theArtist</h1>
+              </div>
+            </div>
+          </div>
+          <div class="footer_2 clearfix">
+            <div class="col-sm-7">
+              <div class="footer_2_left">
+                <a href="#">Sign Up For Headlines</a>
+                <a href="#">Customer Detail</a>
+                <a href="#">Connect With Us</a>
+                <a href="#">Media</a>
+                <a href="#">Work</a>
+                <a class="border_none_1" href="#">Policy</a>
+              </div>
+            </div>
+            <div class="col-sm-5">
+              <div class="footer_2_right pull-right">
+                <ul class="social-network social-circle">
+                  <li><a href="#" class="icoRss" title="Rss"><i class="fa fa-rss"></i></a></li>
+                  <li><a href="#" class="icoFacebook" title="Facebook"><i class="fa fa-facebook"></i></a></li>
+                  <li><a href="#" class="icoTwitter" title="Twitter"><i class="fa fa-twitter"></i></a></li>
+                  <li><a href="#" class="icoGoogle" title="Google +"><i class="fa fa-google-plus"></i></a></li>
+                  <li><a href="#" class="icoLinkedin" title="Linkedin"><i class="fa fa-linkedin"></i></a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+<div id="toTop" onclick="scrollToTop()" class="btn btn-info" style="display: block; background:#e02626; border-color:#e02626;"><span class="fa fa-chevron-up"></span></div>
+
+<script> 
+	function scrollToTop() { 
+		window.scrollTo(0, 0); 
+	} 
+</script> 
+
+
+<!-- <script src="{{url_for('static', filename='JS/bootstrap.min.js')}}"></script>
+<script src="{{url_for('static', filename='JS/jquery-2.1.1.min.js')}}"></script> -->
+
+</body>
+       
+</html>

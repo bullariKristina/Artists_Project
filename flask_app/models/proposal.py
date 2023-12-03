@@ -3,7 +3,7 @@ import re	# the regex module
 from flask import flash
  
 class Proposal:
-    db_name = 'project_artist_it'
+    db_name = 'artistProject'
     def __init__( self , data ):
         self.id = data['id']
         self.title = data['title']

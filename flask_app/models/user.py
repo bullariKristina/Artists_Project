@@ -5,7 +5,7 @@ from flask import flash
 EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$') 
 
 class User():
-    db_name = 'project_artist_it'
+    db_name = 'artistProject'
     def __init__(self, data):
         self.first_name = data['first_name']
         self.last_name = data['last_name']
@@ -60,8 +60,6 @@ class User():
         query = "UPDATE users SET is_verified = 1 WHERE users.id = %(user_id)s;"
         return connectToMySQL(cls.db_name).query_db(query, data)  
     
-    #Checks if there is a user with that email (needed for registration process)
-
     @classmethod
     def updateVerificationCode(cls, data):
         query = "UPDATE users SET verificationCode = %(verificationCode)s WHERE users.id = %(user_id)s;"
@@ -97,18 +95,6 @@ class User():
         return False
     
 
-    # #List of all recipes a given user has liked
-    # @classmethod
-    # def get_one_user_liked_recipes(cls, data):
-    #     query = "SELECT likes.recipe_id as id from likes where user_id = %(user_id)s;"
-    #     results = connectToMySQL(cls.db_name).query_db(query, data)
-    #     likedRecipes = []
-    #     if results:
-    #         for like in results:
-    #             likedRecipes.append( like['id'] )
-    #         return likedRecipes
-    #     return likedRecipes
-    
     @classmethod
     def edit_user(cls, data):
         query = "UPDATE users SET first_name = %(first_name)s, last_name = %(last_name)s, email=%(email)s WHERE id = %(user_id)s;"
@@ -126,6 +112,17 @@ class User():
         if results:
             return results[0]
         return False
+
+    @classmethod
+    def get_4_it(cls):
+        query = "SELECT users.*, portfolios.description FROM users JOIN portfolios ON users.id = portfolios.user_id where users.status = 'it' ORDER BY users.created_at DESC LIMIT 4;"
+        results = connectToMySQL(cls.db_name).query_db(query)
+        users = []
+        if results:
+            for user in results:
+                users.append(user)
+            return users
+        return users
     
     @staticmethod
     def validate_user_artist(user):

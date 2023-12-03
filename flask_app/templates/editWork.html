@@ -13,8 +13,6 @@
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/simplelightbox.min.css') }}">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/create.css') }}">
-  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/jobproposals.css') }}"> 
-
 </head>
 
 <body class="body">
@@ -125,56 +123,101 @@
         </nav>
     </section>
 
+    <h1 class="text-center">UPDATE YOUR WORK</h1>
 
-    <div class="d-flex justify-content-evenly">
-
-      <div class="col-sm-6">
-        <h2 class="text-center">IT jobs</h2>
-        <div class="d-flex flex-wrap">
-          {% for job in jobs %}  
-            <div class="flip-card m-10">
-              <div class="flip-card-inner">
-                  <div class="flip-card-front">
-                      <p class="title">{{job.title}} </p>
-                      <p>{{job.salary}} $</p>
-                      <p>Applications: {{job.applications}}</p>
-                  </div>
-                  <div class="flip-card-back">
-                      <a class="text-decoration-none fs-5" href="/job/{{job.id}}">More details</a>
-                  </div>
-              </div>
-            </div>
-          {% endfor %}
-        </div>
-      </div>
-
-      {% if loggedUser.status == 'it' %}
-        <div class="col-sm-6">
-          <h2 class="m-2 text-center">Proposals</h2>
-          <div class="d-flex flex-wrap">
-            {% for proposal in proposals %}
-              <div class="flip-card m-10">
-                <div class="flip-card-inner">
-                  <div class="flip-card-front">
-                      <p class="title">{{proposal.title}} </p>
-                  </div>
-                  <div class="flip-card-back p-1">
-                      <p class="title"></p>
-                      <a class="text-decoration-none fs-5" href="/proposal/{{proposal.id}}">More details</a>
-                      {% if loggedUser.admin == 1 %}
-                        <a class="text-decoration-none fs-5 text-danger mt-2" href="/proposal/admin/{{proposal.id}}">It specialists suitable</a>
-                      {% endif %}
-                  </div>
+    <h1>{{work}}</h1>
+    <div class="d-flex justify-content-around">
+        <div class="w-50 m-auto d-flex justify-content-around">
+            <form enctype="multipart/form-data" class="w-50 m-auto p-5 border rounded mt-4 text-center bg-pink p-4" action="/edit/work/{{work.id}}" method="post">
+                <h2 class="text-center">Edit! </h2>
+                <div class="form-row">
+                    <label for="caption" class="">Work description: </label>
+                    <textarea class="form-control fs-16" value="{{work.caption}}" name="caption" cols="30" rows="3">{{work.caption}}</textarea>
+                    {% with messages = get_flashed_messages(category_filter=["imageCaption"]) %}
+                    {% if messages %}
+                    {% for message in messages %}
+                    <p class="text-danger text-center">{{message}}</p>
+                    {% endfor %}
+                    {% endif %}
+                    {% endwith %}
                 </div>
-              </div>
-            {% endfor %}
-          </div>
+                {% if loggedUser.status == 'artist' %}
+                    <div class="form-row d-flex justify-content-center">
+                        <div class="form-row m-auto">
+                            <label for="image">Post Image:</label>
+                            <input type="file" class="form-control" name="image">
+                        </div> 
+                    </div>
+                    {% with messages = get_flashed_messages(category_filter=["portfolioImage"]) %}
+                    {% if messages %}
+                    {% for message in messages %}
+                    <p class="text-danger text-center">{{message}}</p>
+                    {% endfor %}
+                    {% endif %}
+                    {% endwith %}
+                    {% with messages = get_flashed_messages(category_filter=["postImage"]) %}
+                    {% if messages %}
+                    {% for message in messages %}
+                    <p class="text-danger text-center">{{message}}</p>
+                    {% endfor %}
+                    {% endif %}
+                    {% endwith %}
+                    <input type="submit" value="Upload" class="mt-20 fs-20 btn btn-success">
+                    {% with messages = get_flashed_messages(category_filter=["addDescription"]) %}
+                    {% if messages %}
+                    {% for message in messages %}
+                    <p class="text-danger text-center">{{message}}</p>
+                    {% endfor %}
+                    {% endif %}
+                    {% endwith %}
+
+                {% elif loggedUser.status =='it' %}
+                    <div class="form-row d-flex justify-content-center">
+                        <div class="form-row m-auto width-100">
+                            <label for="image">GitHub URL for your project:</label>
+                            <input type="url" class="form-control fs-16" name="image">
+                        </div> 
+                    </div>
+                    {% with messages = get_flashed_messages(category_filter=["portfolioImage"]) %}
+                    {% if messages %}
+                    {% for message in messages %}
+                    <p class="text-danger text-center">{{message}}</p>
+                    {% endfor %}
+                    {% endif %}
+                    {% endwith %}
+                    {% with messages = get_flashed_messages(category_filter=["postImage"]) %}
+                    {% if messages %}
+                    {% for message in messages %}
+                    <p class="text-danger text-center">{{message}}</p>
+                    {% endfor %}
+                    {% endif %}
+                    {% endwith %}
+                    <input type="submit" value="Upload" class="mt-20 fs-20 btn btn-success">
+                    {% with messages = get_flashed_messages(category_filter=["addDescription"]) %}
+                    {% if messages %}
+                    {% for message in messages %}
+                    <p class="text-danger text-center">{{message}}</p>
+                    {% endfor %}
+                    {% endif %}
+                    {% endwith %}
+                {% endif %}
+            </form>
+            
+            
         </div>
-      {% endif %}
-    </div>
+  </div>
+    
 
   
+
+
+
+
+
+
+
   <script src="{{url_for('static', filename='JS/carousel.js')}}"></script>
+
   <script src="{{url_for('static', filename='JS/bootstrap.min.js')}}"></script>
   <script src="{{url_for('static', filename='JS/jquery-2.1.1.min.js')}}"></script>
   <script src="{{url_for('static', filename='JS/ekko-lightbox.js')}}"></script>

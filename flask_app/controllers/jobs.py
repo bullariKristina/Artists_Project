@@ -1,3 +1,4 @@
+import smtplib
 from flask_app import app
 
 from flask import render_template, redirect, session, request, flash
@@ -16,6 +17,13 @@ from flask_cors import CORS
 CORS(app)
 from werkzeug.utils import secure_filename
 
+from flask import Flask, render_template, request
+from flask_mail import Mail, Message
+
+from .env import ADMINEMAIL
+from .env import PASSWORD
+
+
 # Check if the format is right 
 def allowed_file(filename):
     return '.' in filename and \
@@ -32,7 +40,7 @@ def dashboard():
             return redirect('/complete/register')
         if loggedUser['is_verified'] == 0:
             return redirect('/verify/email')
-        return render_template('dashboard.html', loggedUser = loggedUser)
+        return render_template('dashboard.html', loggedUser = loggedUser, images3 = Image.get_3_last_images(), jobs = Job.get_4_last_jobs(), its = User.get_4_it())
     return redirect('/')
 
 @app.route('/create/job', methods = ['POST'])
@@ -176,26 +184,12 @@ def portfolio():
         return render_template('addPortfolio.html', loggedUser = loggedUser, portfolio = User.get_user_portfolio(loggedUserData))
     return redirect('/')
 
+
 @app.route('/create/portfolio', methods = ['POST'])
 def createPortfolio():
     if 'user_id' in session:
         if not Portfolio.validate_portfolio(request.form):
             return redirect(request.referrer)
-        if not request.files['image']:
-            flash('Image is required!', 'portfolioImage')
-            return redirect(request.referrer)
-   
-        image = request.files['image']
-        if not allowed_file(image.filename):
-            flash('Image should be in png, jpg, jpeg format!', 'postImage')
-            return redirect(request.referrer)
-        
-        if image and allowed_file(image.filename):
-            filename1 = secure_filename(image.filename)
-            time = datetime.now().strftime("%d%m%Y%S%f")
-            time += filename1
-            filename1 = time
-            image.save(os.path.join(app.config['UPLOAD_FOLDER'], filename1))
         data = {
             'description': request.form['description'],
             'user_id': session['user_id']
@@ -204,25 +198,72 @@ def createPortfolio():
         if not portfolioUser:
             Portfolio.create_portfolio(data)
             portfolioUser = User.get_user_portfolio(data)
-            data1 = {
-                'image': filename1,
-                'portfolio_id': portfolioUser['id']
-            }
-            Image.create_image(data1)
             return redirect(request.referrer)
         data2 = {
             'description': request.form['description'],
-            'image': filename1,
             'portfolio_id': portfolioUser['id']
         }
         Portfolio.update_portfolio(data2)
-        Image.create_image(data2)
+        return redirect(request.referrer)
+    return redirect('/')
+
+@app.route('/create/work', methods = ['POST'])
+def createWork():
+    if 'user_id' in session:
+        user = {
+            'user_id': session['user_id']
+        }
+        portfolioUser = User.get_user_portfolio(user)
+        if portfolioUser:
+            user = {
+                'user_id': portfolioUser['user_id']
+            }
+            userData = User.get_user_by_id(user)
+            if userData['status'] == 'artist':
+                if not Portfolio.validate_work(request.form):
+                    return redirect(request.referrer)
+                image = request.files['image']
+                if not image:
+                    flash('Image is required!', 'portfolioImage')
+                    return redirect(request.referrer)
+                if not allowed_file(image.filename):
+                    flash('Image should be in png, jpg, jpeg format!', 'postImage')
+                    return redirect(request.referrer)
+                if image and allowed_file(image.filename):
+                    filename1 = secure_filename(image.filename)
+                    time = datetime.now().strftime("%d%m%Y%S%f")
+                    time += filename1
+                    filename1 = time
+                    image.save(os.path.join(app.config['UPLOAD_FOLDER'], filename1))
+                data = {
+                    'caption': request.form['caption'],
+                    'image': filename1,
+                    'portfolio_id': portfolioUser['id']
+                }
+                Image.add_work(data)
+
+            elif userData['status'] == 'it':
+                if not Portfolio.validate_work(request.form):
+                    return redirect(request.referrer)
+                image = request.form['image']
+                if not image:
+                    flash('Image is required!', 'portfolioImage')
+                    return redirect(request.referrer)
+                data = {
+                    'caption': request.form['caption'],
+                    'image': request.form['image'],
+                    'portfolio_id': portfolioUser['id']
+                }
+                Image.add_work(data) 
+        if not portfolioUser:
+            flash('Please, first add a description to your portfolio. That way we can start setting up your portfolio.', 'addDescription')
+            return redirect(request.referrer)
         return redirect(request.referrer)
     return redirect('/')
 
 @app.route('/portfolio/<int:id>')
 def userPortfolio(id):
-    if 'user_id'in session:
+    if 'user_id' in session:
         loggedUserData = {
             'user_id': session['user_id'],
         }
@@ -236,9 +277,76 @@ def userPortfolio(id):
         }
         portfolio = User.get_user_portfolio(data)
         images = Portfolio.all_images(data)
-        return render_template('portfolio.html', portfolio = portfolio, images = images, loggedUser = loggedUser)
+        return render_template('portfolio.html', portfolio = portfolio, images = images, loggedUser = loggedUser, portfolioUser = User.get_user_by_id(data))
+    return redirect('/')
+
+@app.route('/contact')
+def contactUs():
+    if 'user_id' in session:
+        loggedUserData = {
+            'user_id': session['user_id'],
+        }
+        loggedUser = User.get_user_by_id(loggedUserData)
+        if loggedUser['setUp'] == 0:
+            return redirect('/complete/register')
+        if loggedUser['is_verified'] == 0:
+            return redirect('/verify/email')
+    return render_template('contact.html', loggedUser = User.get_user_by_id(loggedUserData))
+    
+
+@app.route('/edit/work/<int:id>')
+def editWork(id):
+    if 'user_id' in session:
+        data = {
+            'user_id': session['user_id'],
+            'image_id': id
+        }
+        loggedUser = User.get_user_by_id(data)
+        if loggedUser['setUp'] == 0:
+            return redirect('/complete/register')
+        if loggedUser['is_verified'] == 0:
+            return redirect('/verify/email')
+        return render_template('editWork.html', loggedUser = loggedUser, work = Image.get_image_by_id(data))
+
+@app.route('/edit/work')
+def editImage():
+    if 'user_id' in session:
+        data = {
+            'user_id': session['user_id'],
+            'image_id': id
+        }
+        loggedUser = User.get_user_by_id(data)
+        if loggedUser['setUp'] == 0:
+            return redirect('/complete/register')
+        if loggedUser['is_verified'] == 0:
+            return redirect('/verify/email')
+        return render_template('editWork.html', loggedUser = loggedUser, work = Image.get_image_by_id(data))
+
+        
+@app.route('/delete/work/<int:id>')
+def deleteWork(id):
+    if 'user_id' in session:
+        data = {
+            'user_id': session['user_id'],
+            'image_id': id
+        }
+        loggedUser = User.get_user_by_id(data)
+        if loggedUser['setUp'] == 0:
+            return redirect('/complete/register')
+        if loggedUser['is_verified'] == 0:
+            return redirect('/verify/email')
+        image = Image.get_image_by_id(data)
+        creatorId = {
+            'user_id': image['user_id'] 
+        }
+        #Get the creater of that image and check if he is the same as the one in session
+        user = User.get_user_by_id(creatorId)
+        if user['id'] == session['user_id']:
+            Image.delete_image(data)
+            return redirect(request.referrer)
+        return redirect(request.referrer)
     return redirect('/')
 
 
-    
-    
+
+        

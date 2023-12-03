@@ -3,7 +3,7 @@ import re	# the regex module
 from flask import flash
  
 class Job:
-    db_name = 'project_artist_it'
+    db_name = 'artistProject'
     def __init__( self , data ):
         self.id = data['id']
         self.title = data['title']
@@ -76,21 +76,10 @@ class Job:
     
 
     
-    # @classmethod
-    # def edit_recipe(cls, data):
-    #     query = "UPDATE recipes SET name = %(name)s, description = %(description)s, instructions = %(instructions)s, date_made = %(date_made)s, under_30 = %(under_30)s WHERE id = %(recipe_id)s;"
-    #     return connectToMySQL(cls.db_name).query_db(query, data)
-    
     @classmethod
     def delete_job(cls, data):
         query = "DELETE FROM jobs WHERE id = %(job_id)s;"
         return connectToMySQL(cls.db_name).query_db(query, data)
-
-    # @classmethod
-    # def delete_likes(cls, data):
-    #     query = "DELETE FROM likes WHERE recipe_id = %(recipe_id)s;"
-    #     return connectToMySQL(cls.db_name).query_db(query, data)
-        
 
     #Needed when you delete a user who has jobs published
     @classmethod
@@ -103,6 +92,17 @@ class Job:
         query = "INSERT INTO applications (user_id, job_id) VALUES ( %(user_id)s, %(job_id)s);"
         return connectToMySQL(cls.db_name).query_db(query, data)
 
+    @classmethod
+    def get_4_last_jobs(cls):
+        query = 'SELECT jobs.*, users.first_name, users.last_name FROM jobs JOIN users ON jobs.user_id = users.id ORDER BY created_at DESC LIMIT 4'
+        results = connectToMySQL(cls.db_name).query_db(query)
+        jobs = []
+        if results:
+            for job in results:
+                jobs.append(job)
+            return jobs
+        return jobs
+    
     @staticmethod
     def validate_job(data):
         is_valid = True

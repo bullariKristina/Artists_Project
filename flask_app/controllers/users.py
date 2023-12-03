@@ -68,9 +68,10 @@ def registerIt():
         'verificationCode': verificationCode,
         'setUp': 0
     }
+    User.create_user(data)
 
     LOGIN = ADMINEMAIL
-    TOADDRS  = user['email']
+    TOADDRS  = data['email']
     SENDER = ADMINEMAIL
     SUBJECT = 'Verify Your Email'
     msg = ("From: %s\r\nTo: %s\r\nSubject: %s\r\n\r\n"
@@ -120,6 +121,7 @@ def registerArtist():
         'setUp': 0
     }
     User.create_user(data)
+    
     LOGIN = ADMINEMAIL
     TOADDRS  = data['email']
     SENDER = ADMINEMAIL
@@ -332,8 +334,6 @@ def create():
         'user_id': session['user_id']
     }
     return render_template('create.html', loggedUser = User.get_user_by_id(data))
-
-
 
 @app.route('/network')
 def network():

@@ -1,124 +1,218 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>#theArtist</title>
-    <link rel="icon" href="{{ url_for('static', filename='img/icon.png') }}" type="image/icon type">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='img/icon.png') }}">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/create.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/view.css') }}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#theArtist</title>
+  <link href='https://fonts.googleapis.com/css?family=Aladin' rel='stylesheet'>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/dashboard.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/carousel.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/dropdown.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/font-awesome.min.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/simplelightbox.min.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/create.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/view.css') }}">
+
 </head>
 
-<body>
-  <div class="bg-color pb-5 w-100 h-100 authorisation">
-    <nav class="navbar navbar-dark navbar-expand-lg  py-3 px-5 m-auto border-bottom nav-color">
-      <div class="container-fluid">
-        <a class="navbar-brand logo text-white" href="/">#theArtist</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="d-flex justify-content-between">
-          <a class="navbar-brand lineh-50" href="/network">The network</a>
-          <a class="navbar-brand lineh-50" href="/jobproposals">Jobs/Proposals</a>
-          <div class="dropdown">
-            <button class="dropbtn nav-color"><img src="../static/img/gear-24.png" alt=""></button>
-            <div class="dropdown-content">
-              <a href="/profile">My profile</a>
-              <a href="/portfolio/{{loggedUser.id}}">My portfolio </a>
-              <a href="/portfolio">Create Portfolio</a>
-              <a href="/logout">Logout</a>
+<body class="body">
+<!-- NAVBAR -->
+  <section id="header" class="clearfix cd-secondary-nav">
+    <nav class="navbar">
+      <div class="container clearfix">
+
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header clearfix page-scroll">
+          <button type="button" class="navbar-toggle" data-toggle="collapse"
+            data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a href="/dashboard" class="navbar-brand"><i class="fa fa-pencil"></i>#theArtist</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse clearfix" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav navbar-right">
+            <li>
+              <a class="tag_menu_1 active_tab" href="/dashboard">HOME</a>
+            </li>
+
+            <li class="tag_menu">
+              <div class="dropdown">
+                <button class="dropbtn ">POSTS <i class="fa fa-caret-down" aria-hidden="true"></i></button>
+                <div class="dropdown-content">
+                  <a href="/jobproposals">JOBS</a>
+                  <a href="/jobproposals">PROPOSALS </a>
+                </div>
+              </div>
+            </li>
+
+            <li class="tag_menu">
+              <div class="dropdown">
+                <button class="dropbtn ">CREATE <i class="fa fa-caret-down" aria-hidden="true"></i></button>
+                <div class="dropdown-content">
+                  {% if loggedUser.status == 'artist' %}
+                  <a href="/create">PROPOSAL</a>
+                  {% else %}
+                  <a href="/create">JOB POSITION</a>
+                  {% endif %}
+                </div>
+              </div>
+            </li>
+            
+          <!-- 
+            <li class="dropdown">
+              <a class="tag_menu border_none" href="#" data-toggle="dropdown" role="button"
+                aria-expanded="false">POSTS<span class="caret"></span></a>
+              <ul class="dropdown-menu drop_2" role="menu">
+                <li><a href="collection.html">JOBS</a></li>
+                <li><a href="blog_detail.html">PROPOSALS</a></li>
+              </ul>
+            </li> -->
+
+            <li>
+              <a class="tag_menu" href="/network">NETWORK</a>
+            </li>
+
+            <li>
+              <a class="tag_menu" href="contact.html">CONTACT US</a>
+            </li>
+
+
+            <!-- <li class="dropdown"><a class="tag_menu" href="#" data-toggle="dropdown"><span
+                  class="fa fa-search"></span></a>
+              <ul class="dropdown-menu drop_1" style="min-width: 300px;">
+                <li>
+                  <div class="row_1">
+                    <div class="col-sm-12">
+                      <form class="navbar-form navbar-left" role="search">
+                        <div class="input-group">
+                          <input type="text" class="form-control" placeholder="Search">
+                          <span class="input-group-btn">
+                            <button class="btn btn-primary" type="button">
+                              Search</button>
+                          </span>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </li> -->
+            <li > 
+              <div class="dropdown">
+                <button class="dropbtn nav-color"><img class="img" src="../static/img/gear-24.png" alt=""></button>
+                <div class="dropdown-content">
+                  <a href="/profile/{{loggedUser.id}}">MY PROFILE</a>
+                  <a href="/portfolio/{{loggedUser.id}}">MY PORTFOLIO </a>
+                  <a href="/portfolio">CREATE PORTFOLIO</a>
+                  <a href="/logout">LOGOUT</a>
+                </div>
+              </div>
+            </li>
+           
+          </ul>
+
+        </div>
+        <!-- /.navbar-collapse -->
+      </div>
+      <!-- /.container-fluid -->
+    </nav>
+  </section>
+
+  <div class="w-50 bg-pink m-auto mt-20">
+    {% if not proposal %}  
+    <div class="flip-card mt-5 m-auto">
+      <div class="flip-card-inner">
+          <div class="flip-card-front rounded mt-20 p-4">
+            <p class="title yellow t-center">{{job.title.capitalize()}} </p>
+            <div class="my-3  p-4">
+              <div class="d-flex">
+                <div class="col-4 yellow"><p>Description:</p></div>
+                <div class="col-7 text-white"><p>{{job.description}}</p></div>
+              </div>
+
+              <div class="d-flex">
+                <div class="col-4 yellow"><p>Salary :</p></div>
+                <div class="col-7 text-white"><p>{{job.salary}} </p></div>
+              </div>
+              <div class="d-flex">
+                <div class="col-4 yellow"><p>Posted on :</p></div>
+                <div class="col-7 text-white"><p>{{job.created_at}}</p></div>
+              </div>
+              <div class="d-flex">
+                <div class="col-4 yellow"><p>Posted by :</p></div>
+                <div class="col-7 text-white">
+                  <p>{{creator.first_name}} {{creator.last_name}}</p>
+                  <p>{{creator.email}}</p>
+                </div>
+              </div>
+              {% if loggedUser.id != creator.id %}
+                <div class="d-flex justify-content-center ">
+                  <a href="/apply/{{job.id}}" mailto class="cssbuttons-io">
+                    <span><path fill="none" d="M0 0h24v24H0z"></path><path fill="currentColor" d="M24 12l-5.657 5.657-1.414-1.414L21.172 12l-4.243-4.243 1.414-1.414L24 12zM2.828 12l4.243 4.243-1.414 1.414L0 12l5.657-5.657L7.07 7.757 2.828 12zm6.96 9H7.66l6.552-18h2.128L9.788 21z"></path> Apply</span>
+                  </a>
+                  <a href="mailto:{{creator.email}}" target="_blank" onclick="window.open('http://www.google.com'); window.open('http://www.yahoo.com');">Click Here</a>
+                </div>
+              {% endif %}
             </div>
           </div>
-        </div>
       </div>
-    </nav>
+    </div>
 
 
-    
-      <div class="w-100">
-        {% if not proposal %}  
-        <div class="flip-card mt-5 m-auto">
-          <div class="flip-card-inner">
-              <div class="flip-card-front rounded">
-                  <p class="title yellow">{{job.title.capitalize()}} </p>
-                  <div class="my-3  p-4">
-                    <div class="d-flex">
-                      <div class="col-4 yellow"><p>Description:</p></div>
-                      <div class="col-7 text-white"><p>{{job.description}}</p></div>
-                    </div>
-
-                    <div class="d-flex">
-                      <div class="col-4 yellow"><p>Salary :</p></div>
-                      <div class="col-7 text-white"><p>{{job.salary}} $</p></div>
-                    </div>
-                    <div class="d-flex">
-                      <div class="col-4 yellow"><p>Posted on :</p></div>
-                      <div class="col-7 text-white"><p>{{job.created_at}}</p></div>
-                    </div>
-                    <div class="d-flex">
-                      <div class="col-4 yellow"><p>Posted by :</p></div>
-                      <div class="col-7 text-white">
-                        <p>{{creator.first_name}} {{creator.last_name}}</p>
-                        <p>{{creator.email}}</p>
-                      </div>
-                    </div>
-                    {% if loggedUser.id != creator.id %}
-                      <div class="d-flex justify-content-center ">
-                        <a href="/apply/{{job.id}}" class="cssbuttons-io">
-                          <span><path fill="none" d="M0 0h24v24H0z"></path><path fill="currentColor" d="M24 12l-5.657 5.657-1.414-1.414L21.172 12l-4.243-4.243 1.414-1.414L24 12zM2.828 12l4.243 4.243-1.414 1.414L0 12l5.657-5.657L7.07 7.757 2.828 12zm6.96 9H7.66l6.552-18h2.128L9.788 21z"></path> Apply</span>
-                        </a>
-                        <!-- <a class="text-danger text-decoration-none fs-4" href="">Apply</a> -->
-                      </div>
-                    {% endif %}
+    {% elif not job %}
+    <div class="flip-card mt-5 m-auto">
+      <div class="flip-card-inner">
+          <div class="flip-card-front rounded mt-20 p-4">
+            <p class="title yellow t-center">{{proposal.title.capitalize()}} </p>
+            <div class="my-3  p-4">
+              <div class="d-flex">
+                <div class="col-4 yellow"><p>Description:</p></div>
+                <div class="col-7 text-white"><p>{{proposal.description}}</p></div>
               </div>
-          </div>
-        </div>
-        {% elif not job %}
-        <div class="flip-card mt-5 m-auto">
-          <div class="flip-card-inner">
-              <div class="flip-card-front rounded">
-                  <p class="title yellow">{{proposal.title.capitalize()}} </p>
-                  <div class="my-3  p-4">
-                    <div class="d-flex">
-                      <div class="col-4 yellow"><p>Description:</p></div>
-                      <div class="col-7 text-white"><p>{{proposal.description}}</p></div>
-                    </div>
 
-                    <div class="d-flex">
-                      <div class="col-4 yellow"><p>Developer :</p></div>
-                      <div class="col-7 text-white"><p>{{proposal.skill1.capitalize()}}</p></div>
-                    </div>
-                    <div class="d-flex">
-                      <div class="col-4 yellow"><p>Language :</p></div>
-                      <div class="col-7 text-white"><p>{{proposal.skill2.capitalize()}}</p></div>
-                    </div>
-                    <div class="d-flex">
-                      <div class="col-4 yellow"><p>Way of charge :</p></div>
-                      <div class="col-7 text-white"><p>{{proposal.skill3.capitalize()}}</p></div>
-                    </div>
-                    <div class="d-flex">
-                      <div class="col-4 yellow"><p>Idea by :</p></div>
-                      <div class="col-7 text-white">
-                        <p>{{creator.first_name.capitalize()}} {{creator.last_name.capitalize()}}</p>
-                        <p>{{creator.email}}</p>
-                      </div>
-                    </div>
+              <div class="d-flex">
+                <div class="col-4 yellow"><p>Developer :</p></div>
+                <div class="col-7 text-white"><p>{{proposal.skill1.capitalize()}}</p></div>
               </div>
+              <div class="d-flex">
+                <div class="col-4 yellow"><p>Language :</p></div>
+                <div class="col-7 text-white"><p>{{proposal.skill2.capitalize()}}</p></div>
+              </div>
+              <div class="d-flex">
+                <div class="col-4 yellow"><p>Way of charge :</p></div>
+                <div class="col-7 text-white"><p>{{proposal.skill3.capitalize()}}</p></div>
+              </div>
+              <div class="d-flex">
+                <div class="col-4 yellow"><p>Idea by :</p></div>
+                <div class="col-7 text-white">
+                  <p>{{creator.first_name.capitalize()}} {{creator.last_name.capitalize()}}</p>
+                  <p>{{creator.email}}</p>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-        {% endif %}
       </div>
-
-      
-
-    
-            
-
-
-
+    </div>
+    {% endif %}
   </div>
-    
+
+
+  <script src="{{url_for('static', filename='JS/carousel.js')}}"></script>
+
+  <script src="{{url_for('static', filename='JS/bootstrap.min.js')}}"></script>
+  <script src="{{url_for('static', filename='JS/jquery-2.1.1.min.js')}}"></script>
+  <script src="{{url_for('static', filename='JS/ekko-lightbox.js')}}"></script>
+  <script src="{{url_for('static', filename='JS/simple-lightbox.js')}}"></script>
+
 </body>
+
 </html>

@@ -3,7 +3,7 @@ import re	# the regex module
 from flask import flash
  
 class Portfolio:
-    db_name = 'project_artist_it'
+    db_name = 'artistProject'
     def __init__( self , data ):
         self.id = data['id']
         self.description = data['description']
@@ -14,7 +14,7 @@ class Portfolio:
     @classmethod
     def all_images(cls, data):
         try:
-            query = 'SELECT images.image as image FROM users JOIN portfolios ON users.id = portfolios.user_id JOIN images ON portfolios.id = images.portfolio_id WHERE users.id = %(user_id)s;' 
+            query = 'SELECT images.id as id, images.image as image, images.caption as caption FROM users JOIN portfolios ON users.id = portfolios.user_id JOIN images ON portfolios.id = images.portfolio_id WHERE users.id = %(user_id)s;' 
             results = connectToMySQL(cls.db_name).query_db(query, data)
             if results:
                 return results
@@ -56,8 +56,6 @@ class Portfolio:
         query = "UPDATE portfolios SET description = %(description)s WHERE portfolios.id = %(portfolio_id)s;"
         return connectToMySQL(cls.db_name).query_db(query, data)
     
-
-    
     @staticmethod
     def validate_portfolio(data):
         is_valid = True
@@ -66,4 +64,14 @@ class Portfolio:
             is_valid = False
         else:
             flash('Portfolio successfully upated!', 'portfolioSuccess')
+        return is_valid
+    
+    @staticmethod
+    def validate_work(data):
+        is_valid = True
+        if len(data['caption'])< 2:
+            flash('Description must be more than 2 characters', 'imageCaption')
+            is_valid = False
+        else:
+            flash('Your latest work is successfully added to your portfolio!', 'imageSuccess')
         return is_valid
