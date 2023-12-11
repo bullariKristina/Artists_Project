@@ -66,12 +66,3 @@ class Portfolio:
             flash('Portfolio successfully upated!', 'portfolioSuccess')
         return is_valid
     
-    @staticmethod
-    def validate_work(data):
-        is_valid = True
-        if len(data['caption'])< 2:
-            flash('Description must be more than 2 characters', 'imageCaption')
-            is_valid = False
-        else:
-            flash('Your latest work is successfully added to your portfolio!', 'imageSuccess')
-        return is_valid

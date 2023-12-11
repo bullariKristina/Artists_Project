@@ -19,159 +19,133 @@
 
 <body class="body">
 <!-- NAVBAR -->
-    <section id="header" class="clearfix cd-secondary-nav">
-        <nav class="navbar">
-        <div class="container clearfix">
+  <section id="header" class="clearfix cd-secondary-nav">
+    <nav class="navbar">
+      <div class="container clearfix">
 
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header clearfix page-scroll">
-            <button type="button" class="navbar-toggle" data-toggle="collapse"
-                data-target="#bs-example-navbar-collapse-1">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a href="/dashboard" class="navbar-brand"><i class="fa fa-pencil"></i>#theArtist</a>
-            </div>
-
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse clearfix" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav navbar-right">
-                <li>
-                <a class="tag_menu" href="/dashboard">HOME</a>
-                </li>
-
-                <li class="tag_menu">
-                <div class="dropdown">
-                    <button class="dropbtn ">POSTS <i class="fa fa-caret-down" aria-hidden="true"></i></button>
-                    <div class="dropdown-content">
-                    <a href="/jobproposals">JOBS</a>
-                    <a href="/jobproposals">PROPOSALS </a>
-                    </div>
-                </div>
-                </li>
-
-                <li class="tag_menu">
-                <div class="dropdown">
-                    <button class="dropbtn ">CREATE <i class="fa fa-caret-down" aria-hidden="true"></i></button>
-                    <div class="dropdown-content">
-                    {% if loggedUser.status == 'artist' %}
-                    <a href="/create">PROPOSAL</a>
-                    {% else %}
-                    <a href="/create">JOB POSITION</a>
-                    {% endif %}
-                    </div>
-                </div>
-                </li>
-                
-            <!-- 
-                <li class="dropdown">
-                <a class="tag_menu border_none" href="#" data-toggle="dropdown" role="button"
-                    aria-expanded="false">POSTS<span class="caret"></span></a>
-                <ul class="dropdown-menu drop_2" role="menu">
-                    <li><a href="collection.html">JOBS</a></li>
-                    <li><a href="blog_detail.html">PROPOSALS</a></li>
-                </ul>
-                </li> -->
-
-                <li>
-                <a class="tag_menu" href="/network">NETWORK</a>
-                </li>
-
-                <li>
-                <a class="tag_menu" href="contact.html">CONTACT US</a>
-                </li>
-
-
-                <!-- <li class="dropdown"><a class="tag_menu" href="#" data-toggle="dropdown"><span
-                    class="fa fa-search"></span></a>
-                <ul class="dropdown-menu drop_1" style="min-width: 300px;">
-                    <li>
-                    <div class="row_1">
-                        <div class="col-sm-12">
-                        <form class="navbar-form navbar-left" role="search">
-                            <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Search">
-                            <span class="input-group-btn">
-                                <button class="btn btn-primary" type="button">
-                                Search</button>
-                            </span>
-                            </div>
-                        </form>
-                        </div>
-                    </div>
-                    </li>
-                </ul>
-                </li> -->
-                <li > 
-                <div class="dropdown">
-                    <button class="dropbtn nav-color"><img class="img" src="../static/img/gear-24.png" alt=""></button>
-                    <div class="dropdown-content">
-                    <a href="/profile/{{loggedUser.id}}">MY PROFILE</a>
-                    <a href="/portfolio/{{loggedUser.id}}">MY PORTFOLIO </a>
-                    <a href="/portfolio">CREATE PORTFOLIO</a>
-                    <a href="/logout">LOGOUT</a>
-                    </div>
-                </div>
-                </li>
-            
-            </ul>
-
-            </div>
-            <!-- /.navbar-collapse -->
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header clearfix page-scroll">
+          <button type="button" class="navbar-toggle" data-toggle="collapse"
+            data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a href="/dashboard" class="navbar-brand"><i class="fa fa-pencil"></i>#theArtist</a>
         </div>
-        <!-- /.container-fluid -->
-        </nav>
-    </section>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse clearfix" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav navbar-right">
+            <li>
+              <a class="tag_menu_1 active_tab" href="/dashboard">HOME</a>
+            </li>
+
+            {% if loggedUser.status == 'it' %}
+            <li class="tag_menu">
+              <div class="dropdown">
+                <button class="dropbtn ">POSTS <i class="fa fa-caret-down" aria-hidden="true"></i></button>
+                <div class="dropdown-content">
+                  {% if loggedUser.status == 'it' %}
+                    <a href="/jobproposals">JOBS/PROPOSALS</a>
+                  {% elif loggedUser.status == 'artist' %}
+                  <a href="/jobproposals">JOBS</a>
+                  {% endif %}
+                </div>
+              </div>
+            </li>
+            {% endif %}
+
+            <li class="tag_menu">
+              <div class="dropdown">
+                <button class="dropbtn ">CREATE <i class="fa fa-caret-down" aria-hidden="true"></i></button>
+                <div class="dropdown-content">
+                  {% if loggedUser.status == 'artist' %}
+                  <a href="/create">PROPOSAL</a>
+                  {% else %}
+                  <a href="/create">JOB POSITION</a>
+                  {% endif %}
+                </div>
+              </div>
+            </li>
+
+            <li>
+              <a class="tag_menu" href="/network">NETWORK</a>
+            </li>
+
+            <li>
+              <a class="tag_menu" href="/contact">CONTACT US</a>
+            </li>
+            <li > 
+              <div class="dropdown">
+                <button class="dropbtn nav-color"><img class="img" src="../static/img/gear-24.png" alt=""></button>
+                <div class="dropdown-content">
+                  <a href="/profile/{{loggedUser.id}}">MY PROFILE</a>
+                  <a href="/portfolio/{{loggedUser.id}}">MY PORTFOLIO </a>
+                  <a href="/portfolio">CREATE PORTFOLIO</a>
+                  <a href="/logout">LOGOUT</a>
+                </div>
+              </div>
+            </li>
+          
+          </ul>
+
+        </div>
+      </div>
+    </nav>
+  </section>
 
 
-    <div class="d-flex justify-content-evenly">
+  <div class="d-flex justify-content-evenly">
+    {% if loggedUser.status == 'artist' %}
+    <div class="w-100">
+    {% else %}
+    <div class="col-sm-6">
+    {% endif %}
+      <h2 class="text-center">IT jobs</h2>
+      <div class="d-flex flex-wrap">
+        {% for job in jobs %}  
+          <div class="flip-card m-10">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    <p class="title">{{job.title}} </p>
+                    <p>{{job.salary}} </p>
+                    <p>Applications: {{job.applications}}</p>
+                </div>
+                <div class="flip-card-back">
+                    <a class="text-decoration-none fs-5" href="/job/{{job.id}}">More details</a>
+                </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
 
+    {% if loggedUser.status == 'it' %}
       <div class="col-sm-6">
-        <h2 class="text-center">IT jobs</h2>
+        <h2 class="m-2 text-center">Proposals</h2>
         <div class="d-flex flex-wrap">
-          {% for job in jobs %}  
+          {% for proposal in proposals %}
             <div class="flip-card m-10">
               <div class="flip-card-inner">
-                  <div class="flip-card-front">
-                      <p class="title">{{job.title}} </p>
-                      <p>{{job.salary}} $</p>
-                      <p>Applications: {{job.applications}}</p>
-                  </div>
-                  <div class="flip-card-back">
-                      <a class="text-decoration-none fs-5" href="/job/{{job.id}}">More details</a>
-                  </div>
+                <div class="flip-card-front">
+                    <p class="title">{{proposal.title}} </p>
+                </div>
+                <div class="flip-card-back p-1">
+                    <p class="title"></p>
+                    <a class="text-decoration-none fs-5" href="/proposal/{{proposal.id}}">More details</a>
+                    {% if loggedUser.admin == 1 %}
+                      <a class="text-decoration-none fs-5 text-danger mt-2" href="/proposal/admin/{{proposal.id}}">It specialists suitable</a>
+                    {% endif %}
+                </div>
               </div>
             </div>
           {% endfor %}
         </div>
       </div>
-
-      {% if loggedUser.status == 'it' %}
-        <div class="col-sm-6">
-          <h2 class="m-2 text-center">Proposals</h2>
-          <div class="d-flex flex-wrap">
-            {% for proposal in proposals %}
-              <div class="flip-card m-10">
-                <div class="flip-card-inner">
-                  <div class="flip-card-front">
-                      <p class="title">{{proposal.title}} </p>
-                  </div>
-                  <div class="flip-card-back p-1">
-                      <p class="title"></p>
-                      <a class="text-decoration-none fs-5" href="/proposal/{{proposal.id}}">More details</a>
-                      {% if loggedUser.admin == 1 %}
-                        <a class="text-decoration-none fs-5 text-danger mt-2" href="/proposal/admin/{{proposal.id}}">It specialists suitable</a>
-                      {% endif %}
-                  </div>
-                </div>
-              </div>
-            {% endfor %}
-          </div>
-        </div>
-      {% endif %}
-    </div>
+    {% endif %}
+  </div>
 
   
   <script src="{{url_for('static', filename='JS/carousel.js')}}"></script>

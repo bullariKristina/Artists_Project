@@ -40,17 +40,22 @@
               <a class="tag_menu_1 active_tab" href="/dashboard">HOME</a>
             </li>
 
+            {% if loggedUser.status == 'it' %}
             <li class="tag_menu">
               <div class="dropdown">
                 <button class="dropbtn ">POSTS <i class="fa fa-caret-down" aria-hidden="true"></i></button>
                 <div class="dropdown-content">
+                  {% if loggedUser.status == 'it' %}
+                    <a href="/jobproposals">JOBS/PROPOSALS</a>
+                  {% elif loggedUser.status == 'artist' %}
                   <a href="/jobproposals">JOBS</a>
-                  <a href="/jobproposals">PROPOSALS </a>
+                  {% endif %}
                 </div>
               </div>
             </li>
+            {% endif %}
 
-            <li class="tag_menu_1 active_tab">
+            <li class="tag_menu">
               <div class="dropdown">
                 <button class="dropbtn ">CREATE <i class="fa fa-caret-down" aria-hidden="true"></i></button>
                 <div class="dropdown-content">
@@ -62,46 +67,14 @@
                 </div>
               </div>
             </li>
-            
-          <!-- 
-            <li class="dropdown">
-              <a class="tag_menu border_none" href="#" data-toggle="dropdown" role="button"
-                aria-expanded="false">POSTS<span class="caret"></span></a>
-              <ul class="dropdown-menu drop_2" role="menu">
-                <li><a href="collection.html">JOBS</a></li>
-                <li><a href="blog_detail.html">PROPOSALS</a></li>
-              </ul>
-            </li> -->
 
             <li>
               <a class="tag_menu" href="/network">NETWORK</a>
             </li>
 
             <li>
-              <a class="tag_menu" href="contact.html">CONTACT US</a>
+              <a class="tag_menu" href="/contact">CONTACT US</a>
             </li>
-
-
-            <!-- <li class="dropdown"><a class="tag_menu" href="#" data-toggle="dropdown"><span
-                  class="fa fa-search"></span></a>
-              <ul class="dropdown-menu drop_1" style="min-width: 300px;">
-                <li>
-                  <div class="row_1">
-                    <div class="col-sm-12">
-                      <form class="navbar-form navbar-left" role="search">
-                        <div class="input-group">
-                          <input type="text" class="form-control" placeholder="Search">
-                          <span class="input-group-btn">
-                            <button class="btn btn-primary" type="button">
-                              Search</button>
-                          </span>
-                        </div>
-                      </form>
-                    </div>
-                  </div>
-                </li>
-              </ul>
-            </li> -->
             <li > 
               <div class="dropdown">
                 <button class="dropbtn nav-color"><img class="img" src="../static/img/gear-24.png" alt=""></button>
@@ -113,13 +86,11 @@
                 </div>
               </div>
             </li>
-           
+          
           </ul>
 
         </div>
-        <!-- /.navbar-collapse -->
       </div>
-      <!-- /.container-fluid -->
     </nav>
   </section>
 

@@ -97,12 +97,17 @@ class User():
 
     @classmethod
     def edit_user(cls, data):
-        query = "UPDATE users SET first_name = %(first_name)s, last_name = %(last_name)s, email=%(email)s WHERE id = %(user_id)s;"
+        query = "UPDATE users SET first_name = %(first_name)s, last_name = %(last_name)s, email=%(email)s, profession = %(profession)s WHERE id = %(user_id)s;"
         return connectToMySQL(cls.db_name).query_db(query, data)
     
     @classmethod
     def delete_user(cls, data):
         query = "DELETE FROM users WHERE id = %(user_id)s;"
+        return connectToMySQL(cls.db_name).query_db(query, data)
+    
+    @classmethod
+    def change_password(cls, data):
+        query = "UPDATE users SET password = %(password)s WHERE id = %(user_id)s;"
         return connectToMySQL(cls.db_name).query_db(query, data)
     
     @classmethod
@@ -112,6 +117,7 @@ class User():
         if results:
             return results[0]
         return False
+    
 
     @classmethod
     def get_4_it(cls):
@@ -195,7 +201,22 @@ class User():
         if len(user['last_name'])< 2:
             flash('Last name must be more than 2 characters', 'lastName')
             is_valid = False 
+        if len(user['profession'])< 2:
+            flash('Profession must be more than 2 characters', 'profession')
+            is_valid = False 
         else:
             flash('User updated successfully!!', 'successfullUpdate')    
         return is_valid
     
+    @staticmethod
+    def validate_password(user):
+        is_valid = True
+        if len(user['new_password'])< 8:
+            flash('Password must be more or equal to 8 characters', 'newPassword')
+            is_valid = False
+        if user['confirm_password'] != user['new_password']:
+            flash('The new and confirm passwords do not match',  'confirmPassword')
+            is_valid = False
+        else:
+            flash('Password successfully updated!!', 'success')    
+        return is_valid

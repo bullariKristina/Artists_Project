@@ -277,24 +277,25 @@ def activateAccount():
 
 @app.route('/profile/<int:id>')
 def profile(id):
-    if 'user_id' not in session:
+    if 'user_id' in session:
+        loggedUserData = {
+            'user_id': session['user_id'],
+        }
+        user = User.get_user_by_id(loggedUserData)
+        if user['setUp'] == 0:
+            return redirect('/complete/register')
+        if user['is_verified'] == 0:
+            return redirect('/verify/email')
+        data = {
+            'user_id': id
+        }
+        loggedUser = User.get_user_by_id(data)
+        if loggedUser['id'] == user['id']:
+            return render_template('profile.html', loggedUser = loggedUser )
         return redirect('/')
-    data = {
-        'user_id': id
-    }
-    return render_template('profile.html', user = User.get_user_by_id(data))
+    return redirect('/')
 
-
-@app.route('/editprofile')
-def editProfile():
-    if 'user_id' not in session:
-        return redirect('/')
-    data = {
-        'user_id': session['user_id']
-    }
-    return render_template('editProfile.html', loggedUser = User.get_user_by_id(data))
-
-@app.route('/edit/user/profile', methods=['POST'])
+@app.route('/edit/profile', methods=['POST'])
 def edit_user():
     if 'user_id' not in session:
         return redirect('/')
@@ -304,6 +305,7 @@ def edit_user():
         'first_name': request.form['first_name'],
         'last_name': request.form['last_name'],
         'email': request.form['email'],
+        'profession': request.form['profession'],
         'user_id': session['user_id']
     }
     loggedUser = User.get_user_by_id(data)
@@ -344,6 +346,30 @@ def network():
     }
     print(Portfolio.list_users_with_portfolios())
     return render_template('network.html', loggedUser = User.get_user_by_id(data), users = User.get_all_users(), list = Portfolio.list_users_with_portfolios())
+
+
+@app.route('/change/password', methods=['POST'])
+def changePassword():
+    if 'user_id' in session:
+        loggedUserData = {
+            'user_id': session['user_id'],
+        }
+        loggedUser = User.get_user_by_id(loggedUserData)
+        if loggedUser['setUp'] == 0:
+            return redirect('/complete/register')
+        if loggedUser['is_verified'] == 0:
+            return redirect('/verify/email')
+        if not bcrypt.check_password_hash(loggedUser['password'], request.form['old_password']):
+            flash('Your old password is wrong!', 'wrongPassword')
+            return redirect(request.referrer)
+        if not User.validate_password(request.form):
+            return redirect(request.referrer)
+        data = {
+            'user_id': session['user_id'],
+            'password': bcrypt.generate_password_hash(request.form['new_password'])
+        }
+        User.change_password(data)
+    return redirect(request.referrer())
 
 
 @app.route('/logout')

@@ -143,3 +143,15 @@
 .text-decoration-none{
   text-decoration: none !important;
 }
+
+.fs-30{
+  font-size: 30px;
+}
+
+.flex-wrap{
+  flex-wrap: wrap;
+}
+
+.pb-10{
+  padding-bottom: 100px;
+}

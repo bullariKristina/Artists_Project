@@ -31,7 +31,7 @@ class Image:
     
     @classmethod
     def get_image_by_id(cls, data):
-        query = 'SELECT images.id as id, image as image, caption as caption, portfolios.user_id as user_id FROM images LEFT JOIN portfolios on images.portfolio_id = portfolios.id WHERE images.id = %(user_id)s;'
+        query = 'SELECT images.id as id, images.image as image, images.caption as caption, portfolios.user_id as user_id FROM images LEFT JOIN portfolios on images.portfolio_id = portfolios.id WHERE images.id = %(image_id)s;'
         results = connectToMySQL(cls.db_name).query_db(query, data)
         if results:
             return results[0]
@@ -39,7 +39,7 @@ class Image:
     
     @classmethod
     def edit_image(cls, data):
-        query = "UPDATE images SET image = %(image)s, caption = %(caption)s WHERE images.id = %(image_id)s;"
+        query = "UPDATE images SET caption = %(caption)s WHERE images.id = %(image_id)s;"
         return connectToMySQL(cls.db_name).query_db(query, data)
     
     @classmethod
@@ -57,4 +57,14 @@ class Image:
                 images.append(image)
             return images
         return images
+    
+    @staticmethod
+    def validate_image(data):
+        is_valid = True
+        if len(data['caption'])< 2:
+            flash('Description must be more than 2 characters', 'imageCaption')
+            is_valid = False
+        else:
+            flash('Successfully updated', 'success')
+        return is_valid
     
