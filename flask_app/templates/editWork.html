@@ -102,13 +102,7 @@
                 <div class="form-row">
                     <label for="caption" class=""></label>
                     <textarea class="form-control fs-16" value="{{work.caption}}" name="caption" cols="30" rows="3">{{work.caption}}</textarea>
-                    {% with messages = get_flashed_messages(category_filter=["caption"]) %}
-                    {% if messages %}
-                    {% for message in messages %}
-                    <p class="text-danger text-center">{{message}}</p>
-                    {% endfor %}
-                    {% endif %}
-                    {% endwith %}
+                    
                 </div>
                 {% with messages = get_flashed_messages(category_filter=["success"]) %}
                 {% if messages %}
